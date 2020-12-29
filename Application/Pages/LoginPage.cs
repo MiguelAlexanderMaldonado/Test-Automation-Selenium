@@ -9,15 +9,12 @@ namespace Application.Pages
     public class LoginPage : BasePage
     {
         #region Variables
-
-        private readonly WebDriverWait wait;
-
         private IWebElement CookiesElement 
         {
             get
             {
                 string cookiesElement = "onetrust-accept-btn-handler";
-                wait.Until(ExpectedConditions.ElementToBeClickable(By.Id(cookiesElement)));
+                base.WaitUntilElementExists(By.Id(cookiesElement));
                 return base.Driver.FindElement(By.Id(cookiesElement));
             }
         }
@@ -42,7 +39,7 @@ namespace Application.Pages
         /// Constructor.
         /// </summary>
         /// <param name="driver"></param>
-        public LoginPage(IWebDriver driver) : base(driver) { wait = new WebDriverWait(base.Driver, TimeSpan.FromSeconds(3)); }
+        public LoginPage(IWebDriver driver) : base(driver) { }
 
         /// <summary>
         /// Open the URL of the Spotify login page.

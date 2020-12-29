@@ -81,7 +81,6 @@ namespace Tests.PageTests
             }
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(this._pageLoadTimeout);
             this._screenshot = new ScreenshotUtils(driver);
-
             this.extentReportUtils.AddTestLog(Status.Info, Resource.BrowserType + " - " + browserType);
         }
 
@@ -99,6 +98,7 @@ namespace Tests.PageTests
                 this._screenshot.CaptureAndSaveScreenshot(screenshotFileName);
                 this.extentReportUtils.AddScreenshot(screenshotFileName);
             }
+            this.driver.Close();
             this.driver.Quit();
         }
 

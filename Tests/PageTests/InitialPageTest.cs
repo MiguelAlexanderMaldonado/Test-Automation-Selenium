@@ -2,26 +2,33 @@
 using AventStack.ExtentReports;
 using CommonLibs.Properties;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tests.PageTests
 {
+    [Category("InitialPage")]
     public class InitialPageTest: BaseTests
     {
+        #region Variables
+        private LoginPage loginPage;
+        private InitialPage initialPage;
+        private readonly int playlistPosition = 1;
+        #endregion Variables
+
+        [SetUp]
+        public void SetUpContext() 
+        {
+            loginPage = new LoginPage(base.driver);
+            initialPage = new InitialPage(base.driver);
+            base.MaximizeBrowser();
+        }
+
         [Test]
         public void CreatePlaylistSpotifyTest()
         {
             this.extentReportUtils.CreateATestCase(Resource.VerifyCreatePlaylistTest);
             this.extentReportUtils.AddTestLog(Status.Info, Resource.PerformingCreatePlaylistTest);
-            LoginPage loginPage = new LoginPage(base.driver);
-            InitialPage initialPage = new InitialPage(base.driver);
-            int playListPosition = 1;
-            // Loads Spotify page.            
-            base.MaximizeBrowser();
+            // Loads Spotify page.
             loginPage.Open();
             // Sets the user name / email and password to test the login in Spotify page.
             loginPage.LoginToSpotify("", "");
@@ -31,7 +38,7 @@ namespace Tests.PageTests
             initialPage.GoToInitPageSpotify();
             Thread.Sleep(3000);
             // Compares titles once the playlist has been created.
-            string playlistTittle = initialPage.GetTitlePlaylistSpotify(playListPosition);
+            string playlistTittle = initialPage.GetTitlePlaylistSpotify(playlistPosition);
             Assert.AreEqual(Resource.NewPlaylist, playlistTittle);
         }
 
@@ -43,10 +50,6 @@ namespace Tests.PageTests
         {
             this.extentReportUtils.CreateATestCase(Resource.VerifyDeletePlaylistTest);
             this.extentReportUtils.AddTestLog(Status.Info, Resource.PerformingDeletePlaylistTest);
-            LoginPage loginPage = new LoginPage(base.driver);
-            InitialPage initialPage = new InitialPage(base.driver);
-            int playlistPosition = 1;
-            base.MaximizeBrowser();
             // Loads Spotify page.
             loginPage.Open();
             // Sets the user name / email and password to test the login in Spotify page.

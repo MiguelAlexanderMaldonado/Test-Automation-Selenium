@@ -6,15 +6,25 @@ using System.Threading;
 
 namespace Tests.PageTests
 {
+    [Category("LoginPage")]
     public class LoginPageTests : BaseTests
     {
+        #region Variables
+        private LoginPage loginPage;
+        #endregion Variables
+
+        [SetUp]
+        public void SetUpContext()
+        {
+            this.loginPage = new LoginPage(base.driver);
+            base.MaximizeBrowser();
+        }
+
         [Test]
         public void VerifySpotifyLoginTest()
         {
             this.extentReportUtils.CreateATestCase(Resource.VerifyLoginTest);
-            this.extentReportUtils.AddTestLog(Status.Info, Resource.PerformingLogin);
-            LoginPage loginPage = new LoginPage(base.driver);
-            base.MaximizeBrowser();
+            this.extentReportUtils.AddTestLog(Status.Info, Resource.PerformingLogin);            
             // Loads Spotify page.
             loginPage.Open();
             // Test: Sets thes user name / email and password to test the login in Spotify page.
