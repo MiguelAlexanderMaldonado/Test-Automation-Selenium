@@ -2,6 +2,7 @@
 using AventStack.ExtentReports;
 using CommonLibs.Properties;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Tests.PageTests
 {
@@ -18,8 +19,10 @@ namespace Tests.PageTests
             loginPage.Open();
             // Test: Sets thes user name / email and password to test the login in Spotify page.
             loginPage.LoginToSpotify("", "");
+            // Waits the page flow until get the title page.
+            Thread.Sleep(5000);
             // Compares titles once login occurs.
-            string actualTitle = loginPage.GetTitlePage();
+            string actualTitle = base.driver.Title;
             Assert.AreEqual(Resource.ExpectedSpotifyTitle, actualTitle);
         }
     }

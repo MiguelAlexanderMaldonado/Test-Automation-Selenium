@@ -8,11 +8,80 @@ using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace Application.Pages
 {
-    public class InitialPage: BasePage
+    public class InitialPage : BasePage
     {
         #region Variables
 
-        private readonly IWebDriver _driver;
+        private readonly WebDriverWait wait;
+        private IWebElement HomeIcon
+        {
+            get
+            {
+                string homeIcon = "//*[@class='icon home-icon']/..";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(homeIcon)));
+                return base.Driver.FindElement(By.XPath(homeIcon));
+            }
+        }
+
+        #region New playlist
+        private IWebElement CreatePlaylistButton
+        {
+            get
+            {
+                string createPlaylist = "//div/div/div/button/*[@shape-rendering='crispEdges']/..";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(createPlaylist)));
+                return base.Driver.FindElement(By.XPath(createPlaylist));
+            }
+        }
+        private IWebElement PlaylistTitleLink
+        {
+            get
+            {
+                string playlistTitleLink = "//div/div/span/button/h1/..";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(playlistTitleLink)));
+                return base.Driver.FindElement(By.XPath(playlistTitleLink));
+            }
+        }
+        private IWebElement PlaylistTitleBox
+        {
+            get
+            {
+                string playlistTitleBox = "//*[@data-testid='playlist-edit-details-name-input']";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(playlistTitleBox)));
+                return base.Driver.FindElement(By.XPath(playlistTitleBox));
+            }
+        }
+        private IWebElement SavePlaylistButton
+        {
+            get
+            {
+                string savePlaylist = "//*[@data-testid='playlist-edit-details-save-button']";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(savePlaylist)));
+                return base.Driver.FindElement(By.XPath(savePlaylist));
+            }
+        }
+        #endregion New playlist
+
+        #region Delete playlist
+        private IWebElement DeleteOptionButton
+        {
+            get 
+            {
+                string deleteOption = "//*[@role='menu']/li[5]";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(deleteOption)));
+                return base.Driver.FindElement(By.XPath(deleteOption));
+            }
+        }
+        private IWebElement AcceptDeleteOptionButton
+        {
+            get
+            {
+                string acceptDeleteOption = "//*[@role='dialog']/div[1]/div/button[2]";
+                wait.Until(ExpectedConditions.ElementExists(By.XPath(acceptDeleteOption)));
+                return base.Driver.FindElement(By.XPath(acceptDeleteOption));
+            }
+        }
+        #endregion Delete playlist
 
         #endregion Variables
 
@@ -22,10 +91,7 @@ namespace Application.Pages
         /// Constructor.
         /// </summary>
         /// <param name="driver"></param>
-        public InitialPage(IWebDriver driver)
-        {
-            this._driver = driver;
-        }
+        public InitialPage(IWebDriver driver): base(driver){ wait = new WebDriverWait(base.Driver, TimeSpan.FromSeconds(3)); }
 
         /// <summary>
         /// Drags and drops an element of the Spotify lateral playlist.
@@ -35,42 +101,28 @@ namespace Application.Pages
             /*** Loads JQuery in the context             
             //string workingDirectory = Environment.CurrentDirectory;
             //string currentProjectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            //IJavaScriptExecutor js = this._driver as IJavaScriptExecutor;
+            //IJavaScriptExecutor js = base.Driver as IJavaScriptExecutor;
             //var jqueryFile = File.ReadAllText(currentProjectDirectory + "/js/jquery-3.5.1.js");
             //js.ExecuteScript(jqueryFile);
             ***/
 
             // Clicks the new playlist button.
-            string createPlayList = "//div/div/div/button/*[@shape-rendering='crispEdges']/..";
-            WebDriverWait wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(createPlayList)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.XPath(createPlayList)));
+            base.CmnElement.ClickElement(CreatePlaylistButton);
             // Clicks the title of the new playlist.
-            string playlistTitle = "//div/div/span/button/h1/..";
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(playlistTitle)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.XPath(playlistTitle)));
+            base.CmnElement.ClickElement(PlaylistTitleLink);
             // Sets title to the new playlist.
-            string setPlaylistTitle = "//*[@data-testid='playlist-edit-details-name-input']";
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(setPlaylistTitle)));
-            this._driver.FindElement(By.XPath(setPlaylistTitle)).Clear();
-            this.cmnElement.SetText(this._driver.FindElement(By.XPath(setPlaylistTitle)), Resource.NewPlaylist);
+            base.CmnElement.ClearText(PlaylistTitleBox);
+            base.CmnElement.SetText(PlaylistTitleBox, Resource.NewPlaylist);
             // Saves the new playlist.
-            string savePlaylist = "//*[@data-testid='playlist-edit-details-save-button']";
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(setPlaylistTitle)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.XPath(savePlaylist)));
-            
-
+            base.CmnElement.ClickElement(SavePlaylistButton);
         }
 
         /// <summary>
         /// Load the init page.
         /// </summary>
         public void GoToInitPageSpotify() {
-            // Clicks the init button.
-            string initButton = "//*[@class='icon home-icon']/..";
-            WebDriverWait wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(initButton)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.XPath(initButton)));
+            // Clicks the home icon button.
+            base.CmnElement.ClickElement(HomeIcon);
         }
 
         /// <summary>
@@ -80,14 +132,9 @@ namespace Application.Pages
         /// <returns>The title.</returns>
         public string GetTitlePlaylistSpotify(int indexList)
         {
-            string title = string.Empty;
             string firstPlayList = $"//*[@class='os-content']/ul/div[{indexList}]/li/a/span";
-
-            WebDriverWait wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
             wait.Until(ExpectedConditions.ElementExists(By.XPath(firstPlayList)));
-
-            title = this.cmnElement.GetText(this._driver.FindElement(By.XPath(firstPlayList)));
-            return title;
+            return base.CmnElement.GetText(base.Driver.FindElement(By.XPath(firstPlayList)));
         }
 
         /// <summary>
@@ -98,21 +145,14 @@ namespace Application.Pages
         {
             // Clicks (rigth click) the playlist to delete.
             string playList = $"//*[@class='os-content']/ul/div[{indexPlaylist}]/li/a/span/..";
-            WebDriverWait wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
+            WebDriverWait wait = new WebDriverWait(base.Driver, TimeSpan.FromSeconds(3));
             wait.Until(ExpectedConditions.ElementExists(By.XPath(playList)));
             // Rigth click.
-            Actions action = new Actions(this._driver);
-            action.ContextClick(this._driver.FindElement(By.XPath(playList))).Build().Perform();
+            base.CmnActions.ContextClick(base.Driver.FindElement(By.XPath(playList)));
             // Clicks the delete option.
-            string deleteOption = "//*[@role='menu']/li[5]";
-            wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(deleteOption)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.XPath(deleteOption)));
+            base.CmnElement.ClickElement(DeleteOptionButton);
             // Clicks the accept delete option.
-            string acceptDeleteOption = "//*[@role='dialog']/div[1]/div/button[2]";
-            wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
-            wait.Until(ExpectedConditions.ElementExists(By.XPath(acceptDeleteOption)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.XPath(acceptDeleteOption)));
+            base.CmnElement.ClickElement(AcceptDeleteOptionButton);
         }
 
 

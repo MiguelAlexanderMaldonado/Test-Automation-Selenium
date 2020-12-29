@@ -1,15 +1,38 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Threading;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace Application.Pages
 {
-    public class LoginPage: BasePage
+    public class LoginPage : BasePage
     {
         #region Variables
 
-        private readonly IWebDriver _driver;
+        private readonly WebDriverWait wait;
+
+        private IWebElement CookiesElement 
+        {
+            get
+            {
+                string cookiesElement = "onetrust-accept-btn-handler";
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.Id(cookiesElement)));
+                return base.Driver.FindElement(By.Id(cookiesElement));
+            }
+        }
+        private IWebElement FirstLoginButton => base.Driver.FindElement(By.XPath("//*[@type='button'][@data-testid='login-button']"));
+        private IWebElement UserNameBox => base.Driver.FindElement(By.Id("login-username"));
+        private IWebElement PasswordBox => base.Driver.FindElement(By.Id("login-password"));
+        private IWebElement LastLoginButton => base.Driver.FindElement(By.Id("login-button"));
+
+        public string TitlePage 
+        {
+            get 
+            {
+                return base.Driver.Title;
+            }
+        }
 
         #endregion Variables
 
@@ -19,17 +42,14 @@ namespace Application.Pages
         /// Constructor.
         /// </summary>
         /// <param name="driver"></param>
-        public LoginPage(IWebDriver driver)
-        {
-            this._driver = driver;
-        }
+        public LoginPage(IWebDriver driver) : base(driver) { wait = new WebDriverWait(base.Driver, TimeSpan.FromSeconds(3)); }
 
         /// <summary>
         /// Open the URL of the Spotify login page.
         /// </summary>
         public void Open()
         {
-            this._driver.Navigate().GoToUrl(base.configuration["baseSpotifyUrl"]);
+            base.Driver.Navigate().GoToUrl(base.Configuration["baseSpotifyUrl"]);
         }
 
         /// <summary>
@@ -39,36 +59,18 @@ namespace Application.Pages
         /// <param name="sPassword">Password.</param>
         public void LoginToSpotify(string sUsername, string sPassword)
         {
-            // Waits to the cookies window be load
-            string cookiesElement = "onetrust-accept-btn-handler";
-            WebDriverWait wait = new WebDriverWait(this._driver, TimeSpan.FromSeconds(3));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id(cookiesElement)));
-            this.cmnElement.ClickElement(this._driver.FindElement(By.Id(cookiesElement)));
+            // Accepts the cookies window
+            base.CmnElement.ClickElement(CookiesElement);
             // Clicks first login button
-            var firstLogInButton = this._driver.FindElement(By.XPath("//*[@type='button'][@data-testid='login-button']"));
-            this.cmnElement.ClickElement(firstLogInButton);
+            base.CmnElement.ClickElement(FirstLoginButton);
             // Waits to the final login button be load
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("login-button")));
+            Thread.Sleep(2000);
             // Sets the user
-            var username = this._driver.FindElement(By.Id("login-username"));
-            this.cmnElement.SetText(username, sUsername);
+            base.CmnElement.SetText(UserNameBox, sUsername);
             // Sets the password
-            var password = this._driver.FindElement(By.Id("login-password"));
-            this.cmnElement.SetText(password, sPassword);
-            // Click the log in button
-            var finalLoginButton = this._driver.FindElement(By.Id("login-button"));
-            this.cmnElement.ClickElement(finalLoginButton);
-        }
-
-        /// <summary>
-        /// Get the page title of the web page.
-        /// </summary>
-        /// <returns>Page title.</returns>
-        public string GetTitlePage()
-        {
-            // Waits the page flow until get the title page.
-            System.Threading.Thread.Sleep(5000);
-            return this._driver.Title;
+            base.CmnElement.SetText(PasswordBox, sPassword);
+            // Clicks last login button
+            base.CmnElement.ClickElement(LastLoginButton);
         }
 
         #endregion Public methods
