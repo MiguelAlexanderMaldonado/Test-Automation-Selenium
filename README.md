@@ -4,7 +4,7 @@
 ## Technology features
 
 - [Selenium WebDriver](https://www.selenium.dev/documentation/en/webdriver/)
-- [.NET Core 3.1]https://docs.microsoft.com/es-es/dotnet/core/whats-new/dotnet-core-3-1)
+- [.NET Core 3.1](https://docs.microsoft.com/es-es/dotnet/core/whats-new/dotnet-core-3-1)
 - [NUnit](https://nunit.org/)
 
 ## Spotify web page
