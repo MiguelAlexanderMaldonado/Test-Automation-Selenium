@@ -162,6 +162,9 @@
   <data name="PerformingLogin" xml:space="preserve">
     <value>Performing login</value>
   </data>
+  <data name="PerformingReproducePlaylistTest" xml:space="preserve">
+    <value>Performing reproduce playlist test</value>
+  </data>
   <data name="VerifyCreatePlaylistTest" xml:space="preserve">
     <value>Verify create playlist test</value>
   </data>
@@ -170,5 +173,8 @@
   </data>
   <data name="VerifyLoginTest" xml:space="preserve">
     <value>Verify login test</value>
+  </data>
+  <data name="VerifyReproducePlaylistTest" xml:space="preserve">
+    <value>Verify reproduce playlist test</value>
   </data>
 </root>

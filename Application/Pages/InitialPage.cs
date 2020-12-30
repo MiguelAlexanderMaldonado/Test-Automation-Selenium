@@ -10,6 +10,7 @@ namespace Application.Pages
     public class InitialPage : BasePage
     {
         #region Variables
+        
         private IWebElement HomeIcon
         {
             get
@@ -19,6 +20,7 @@ namespace Application.Pages
                 return base.Driver.FindElement(By.XPath(homeIcon));
             }
         }
+        
         #region New playlist
             private IWebElement CreatePlaylistButton
             {
@@ -57,6 +59,7 @@ namespace Application.Pages
                 }
             }
         #endregion New playlist
+        
         #region Delete playlist
             private IWebElement DeleteOptionButton
             {
@@ -77,6 +80,27 @@ namespace Application.Pages
                 }
             }
         #endregion Delete playlist
+        
+        private IWebElement ReproduceButton
+        {
+            get 
+            {
+                string reproduceButton = "//*[@data-testid='action-bar-row']/*[@data-testid='play-button']";
+                base.WaitUntilElementExists(By.XPath(reproduceButton));
+                return base.Driver.FindElement(By.XPath(reproduceButton));
+            }
+        }
+
+        public bool IsReproducing
+        {
+            get 
+            {
+                return Pause.Equals(ReproduceButton.GetAttribute("aria-label"));
+            }
+        }
+
+        private string Pause => "Pausa";
+
         #endregion Variables
 
         #region Public methods
@@ -85,7 +109,7 @@ namespace Application.Pages
         /// Constructor.
         /// </summary>
         /// <param name="driver"></param>
-        public InitialPage(IWebDriver driver): base(driver){ }
+        public InitialPage(IWebDriver driver): base(driver){}
 
         /// <summary>
         /// Drags and drops an element of the Spotify lateral playlist.
@@ -146,6 +170,20 @@ namespace Application.Pages
             base.CmnElement.ClickElement(DeleteOptionButton);
             // Clicks the accept delete option.
             base.CmnElement.ClickElement(AcceptDeleteOptionButton);
+        }
+
+        /// <summary>
+        /// Reproduce the playlist of the Spotify playlist located in the index position passed like parameter.
+        /// </summary>
+        /// <param name="indexPlaylist">List position.</param>
+        public void ReproducePlaylistSpotify(int indexPlaylist)
+        {
+            // Clicks the playlist to reproduce.
+            string playList = $"//*[@class='os-content']/ul/div[{indexPlaylist}]/li/a/span/..";
+            base.WaitUntilElementExists(By.XPath(playList));
+            base.CmnElement.ClickElement(base.Driver.FindElement(By.XPath(playList)));
+            // Clicks the play button.
+            base.CmnElement.ClickElement(ReproduceButton);
         }
 
 

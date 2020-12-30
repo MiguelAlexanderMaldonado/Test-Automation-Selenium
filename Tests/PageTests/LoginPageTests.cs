@@ -23,12 +23,11 @@ namespace Tests.PageTests
         [Test]
         public void VerifySpotifyLoginTest()
         {
-            this.extentReportUtils.CreateATestCase(Resource.VerifyLoginTest);
-            this.extentReportUtils.AddTestLog(Status.Info, Resource.PerformingLogin);            
+            base.SetTestCaseReportLog(Resource.VerifyLoginTest, Resource.PerformingLogin);
             // Loads Spotify page.
             loginPage.Open();
             // Test: Sets thes user name / email and password to test the login in Spotify page.
-            loginPage.LoginToSpotify("", "");
+            loginPage.LoginToSpotify(base.configuration["userNameSpotify"], base.configuration["passwordSpotify"]);
             // Waits the page flow until get the title page.
             Thread.Sleep(5000);
             // Compares titles once login occurs.

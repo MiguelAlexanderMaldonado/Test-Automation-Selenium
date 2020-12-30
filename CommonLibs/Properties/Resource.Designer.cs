@@ -196,6 +196,15 @@ namespace CommonLibs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performing reproduce playlist test.
+        /// </summary>
+        public static string PerformingReproducePlaylistTest {
+            get {
+                return ResourceManager.GetString("PerformingReproducePlaylistTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Verify create playlist test.
         /// </summary>
         public static string VerifyCreatePlaylistTest {
@@ -219,6 +228,15 @@ namespace CommonLibs.Properties {
         public static string VerifyLoginTest {
             get {
                 return ResourceManager.GetString("VerifyLoginTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify reproduce playlist test.
+        /// </summary>
+        public static string VerifyReproducePlaylistTest {
+            get {
+                return ResourceManager.GetString("VerifyReproducePlaylistTest", resourceCulture);
             }
         }
     }

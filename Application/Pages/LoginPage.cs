@@ -39,14 +39,14 @@ namespace Application.Pages
         /// Constructor.
         /// </summary>
         /// <param name="driver"></param>
-        public LoginPage(IWebDriver driver) : base(driver) { }
+        public LoginPage(IWebDriver driver) : base(driver) {}
 
         /// <summary>
         /// Open the URL of the Spotify login page.
         /// </summary>
         public void Open()
         {
-            base.Driver.Navigate().GoToUrl(base.Configuration["baseSpotifyUrl"]);
+            base.Driver.Navigate().GoToUrl(base.Configuration["baseUrlSpotify"]);
         }
 
         /// <summary>
@@ -56,17 +56,18 @@ namespace Application.Pages
         /// <param name="sPassword">Password.</param>
         public void LoginToSpotify(string sUsername, string sPassword)
         {
-            // Accepts the cookies window
+            // Accepts the cookies window.
             base.CmnElement.ClickElement(CookiesElement);
-            // Clicks first login button
+            // Clicks first login button.
             base.CmnElement.ClickElement(FirstLoginButton);
-            // Waits to the final login button be load
+            // Waits to the final login button be load.
+            // Waits 2s.
             Thread.Sleep(2000);
             // Sets the user
             base.CmnElement.SetText(UserNameBox, sUsername);
-            // Sets the password
+            // Sets the password.
             base.CmnElement.SetText(PasswordBox, sPassword);
-            // Clicks last login button
+            // Clicks last login button.
             base.CmnElement.ClickElement(LastLoginButton);
         }
 

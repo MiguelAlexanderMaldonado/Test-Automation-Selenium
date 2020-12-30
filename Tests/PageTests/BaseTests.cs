@@ -38,10 +38,16 @@ namespace Tests.PageTests
         [OneTimeSetUp]
         public void PreSetup()
         {
+            // Loads the project directories.
             string workingDirectory = Environment.CurrentDirectory;
             this._currentSolutionDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.FullName;
+            string currentProjectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            // Defines the name of report file.
             string reportFilename = this._currentSolutionDirectory + "/reports/testReport.html";
             this.extentReportUtils = new ExtentReportUtils(reportFilename);
+            // Loads the configuration file.
+            this.configuration = new ConfigurationBuilder().AddJsonFile(currentProjectDirectory + "/config/appSettings.json").Build();
+            // Checks the logs directories.
             CheckLogFolders();
         }
 
@@ -51,10 +57,9 @@ namespace Tests.PageTests
         [SetUp]
         public void Setup()
         {
-            string workingDirectory = Environment.CurrentDirectory;
-            string currentProjectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            this.configuration = new ConfigurationBuilder().AddJsonFile(currentProjectDirectory + "/config/appSettings.json").Build();
+            // Creates a new test case.
             this.extentReportUtils.CreateATestCase("Setup");
+            // Loads the driver type.
             string browserType = this.configuration["browserType"];
             try
             {
@@ -79,8 +84,11 @@ namespace Tests.PageTests
             {
                 new Exception(Resource.InvalidBrowserType + browserType + e.Message);
             }
+            // Sets the timeout to page load.
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(this._pageLoadTimeout);
+            // Defines the screenshots utility.
             this._screenshot = new ScreenshotUtils(driver);
+            // Adds test log info.
             this.extentReportUtils.AddTestLog(Status.Info, Resource.BrowserType + " - " + browserType);
         }
 
@@ -90,16 +98,19 @@ namespace Tests.PageTests
         [TearDown]
         public void TearDown()
         {
+            // Defines the screenshot file name.
             string currentExecutionTime = DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss");
             string screenshotFileName = $"{this._screenshotDirectory}/test-{currentExecutionTime}.png";
+            // Checks if the test case failed.
             if (TestContext.CurrentContext.Result.Outcome.Equals(ResultState.Failure))
             {
+                // Adds test log info.
                 this.extentReportUtils.AddTestLog(Status.Fail, Resource.OneOrMoreStepFiled);
+                // Takes a screenshot and save it.
                 this._screenshot.CaptureAndSaveScreenshot(screenshotFileName);
+                // Adds the screenshot to the report.
                 this.extentReportUtils.AddScreenshot(screenshotFileName);
             }
-            this.driver.Close();
-            this.driver.Quit();
         }
 
         /// <summary>
@@ -109,6 +120,8 @@ namespace Tests.PageTests
         public void PostCleanUp()
         {
             this.extentReportUtils.FlushReport();
+            this.driver.Close();
+            this.driver.Quit();
         }
 
         /// <summary>
@@ -118,6 +131,17 @@ namespace Tests.PageTests
         public void MaximizeBrowser()
         {
             this.driver.Manage().Window.Maximize();
+        }
+
+        /// <summary>
+        /// Defines the report context to the report log.
+        /// </summary>
+        /// <param name="testCaseName">Case name.</param>
+        /// <param name="testLog">Log text.</param>
+        public void SetTestCaseReportLog(string testCaseName, string testLog)
+        {
+            this.extentReportUtils.CreateATestCase(testCaseName);
+            this.extentReportUtils.AddTestLog(Status.Info, testLog);
         }
 
         #endregion Public methods
@@ -131,14 +155,12 @@ namespace Tests.PageTests
         {
             this._screenshotDirectory = $"{this._currentSolutionDirectory}/screenshots/";
             string reportsFolder = $"{this._currentSolutionDirectory}/reports/";
+            
             if (!Directory.Exists(this._screenshotDirectory))
-            {
                 Directory.CreateDirectory(this._screenshotDirectory);
-            }            
+            
             if (!Directory.Exists(reportsFolder))
-            {
-                Directory.CreateDirectory(reportsFolder);
-            }
+                Directory.CreateDirectory(reportsFolder);            
         }
 
         #endregion Private methods
