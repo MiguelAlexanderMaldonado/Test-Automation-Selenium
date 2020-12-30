@@ -95,7 +95,14 @@ namespace Application.Pages
         {
             get 
             {
-                return Pause.Equals(ReproduceButton.GetAttribute("aria-label"));
+                try
+                {
+                    return Pause.Equals(ReproduceButton.GetAttribute("aria-label"));
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
             }
         }
 
@@ -133,6 +140,8 @@ namespace Application.Pages
             base.CmnElement.SetText(PlaylistTitleBox, Resource.NewPlaylist);
             // Saves the new playlist.
             base.CmnElement.ClickElement(SavePlaylistButton);
+
+            logger.Info($"Playlist created: {Resource.NewPlaylist}");
         }
 
         /// <summary>
@@ -170,6 +179,8 @@ namespace Application.Pages
             base.CmnElement.ClickElement(DeleteOptionButton);
             // Clicks the accept delete option.
             base.CmnElement.ClickElement(AcceptDeleteOptionButton);
+
+            logger.Info($"Playlist deleted");
         }
 
         /// <summary>
@@ -184,6 +195,8 @@ namespace Application.Pages
             base.CmnElement.ClickElement(base.Driver.FindElement(By.XPath(playList)));
             // Clicks the play button.
             base.CmnElement.ClickElement(ReproduceButton);
+
+            logger.Info($"Playlist is reproducing");
         }
 
 

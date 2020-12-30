@@ -15,6 +15,7 @@ namespace Application.Pages
             {
                 string cookiesElement = "onetrust-accept-btn-handler";
                 base.WaitUntilElementExists(By.Id(cookiesElement));
+                logger.Info($"Validates element: {cookiesElement}");
                 return base.Driver.FindElement(By.Id(cookiesElement));
             }
         }
@@ -46,7 +47,10 @@ namespace Application.Pages
         /// </summary>
         public void Open()
         {
-            base.Driver.Navigate().GoToUrl(base.Configuration["baseUrlSpotify"]);
+            string url = base.Configuration["baseUrlSpotify"];
+            base.Driver.Navigate().GoToUrl(url);
+
+            logger.Info($"Open url: {url}");
         }
 
         /// <summary>
@@ -69,6 +73,8 @@ namespace Application.Pages
             base.CmnElement.SetText(PasswordBox, sPassword);
             // Clicks last login button.
             base.CmnElement.ClickElement(LastLoginButton);
+
+            logger.Info($"Login with username: {sUsername} & password: {sPassword}");
         }
 
         #endregion Public methods

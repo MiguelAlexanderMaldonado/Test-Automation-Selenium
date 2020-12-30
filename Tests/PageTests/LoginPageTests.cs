@@ -20,7 +20,8 @@ namespace Tests.PageTests
             base.MaximizeBrowser();
         }
 
-        [Test]
+        [Description("Verifies the login in Spotify webpage")]
+        [Test]        
         public void VerifySpotifyLoginTest()
         {
             base.SetTestCaseReportLog(Resource.VerifyLoginTest, Resource.PerformingLogin);
@@ -32,7 +33,7 @@ namespace Tests.PageTests
             Thread.Sleep(5000);
             // Compares titles once login occurs.
             string actualTitle = base.driver.Title;
-            Assert.AreEqual(Resource.ExpectedSpotifyTitle, actualTitle);
+            Assert.AreEqual(Resource.ExpectedSpotifyTitle, actualTitle, Resource.ErrorLogin);
         }
     }
 }

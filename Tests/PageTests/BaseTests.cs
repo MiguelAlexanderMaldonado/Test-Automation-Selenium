@@ -103,14 +103,16 @@ namespace Tests.PageTests
             string screenshotFileName = $"{this._screenshotDirectory}/test-{currentExecutionTime}.png";
             // Checks if the test case failed.
             if (TestContext.CurrentContext.Result.Outcome.Equals(ResultState.Failure))
-            {
+            {                
                 // Adds test log info.
-                this.extentReportUtils.AddTestLog(Status.Fail, Resource.OneOrMoreStepFiled);
+                this.extentReportUtils.AddTestLog(Status.Fail, TestContext.CurrentContext.Result.StackTrace);
                 // Takes a screenshot and save it.
                 this._screenshot.CaptureAndSaveScreenshot(screenshotFileName);
                 // Adds the screenshot to the report.
                 this.extentReportUtils.AddScreenshot(screenshotFileName);
             }
+            this.driver.Close();
+            this.driver.Quit();
         }
 
         /// <summary>
@@ -120,8 +122,6 @@ namespace Tests.PageTests
         public void PostCleanUp()
         {
             this.extentReportUtils.FlushReport();
-            this.driver.Close();
-            this.driver.Quit();
         }
 
         /// <summary>

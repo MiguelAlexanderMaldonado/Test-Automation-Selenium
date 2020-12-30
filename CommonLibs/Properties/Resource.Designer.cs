@@ -97,6 +97,42 @@ namespace CommonLibs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login action failed.
+        /// </summary>
+        public static string ErrorLogin {
+            get {
+                return ResourceManager.GetString("ErrorLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playlist hasn&apos;t been created.
+        /// </summary>
+        public static string ErrorPlaylistNotCreate {
+            get {
+                return ResourceManager.GetString("ErrorPlaylistNotCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playlist hasn&apos;t been deleted.
+        /// </summary>
+        public static string ErrorPlaylistNotDelete {
+            get {
+                return ResourceManager.GetString("ErrorPlaylistNotDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playlist hasn&apos;t been reproduced.
+        /// </summary>
+        public static string ErrorPlaylistNotReproduce {
+            get {
+                return ResourceManager.GetString("ErrorPlaylistNotReproduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Facebook.
         /// </summary>
         public static string ExpectedFacebookTitle {

@@ -23,7 +23,8 @@ namespace Tests.PageTests
             base.MaximizeBrowser();
         }
 
-        [Test]
+        [Description("Creates a playlist in Spotify lateral playlist")]
+        [Test]        
         public void CreatePlaylistSpotifyTest()
         {
             base.SetTestCaseReportLog(Resource.VerifyCreatePlaylistTest, Resource.PerformingCreatePlaylistTest);
@@ -37,9 +38,10 @@ namespace Tests.PageTests
             Thread.Sleep(3000);
             // Compares titles once the playlist has been created.
             string playlistTittle = initialPage.GetTitlePlaylistSpotify(playlistPosition);
-            Assert.AreEqual(Resource.NewPlaylist, playlistTittle);
+            Assert.AreEqual(Resource.NewPlaylist, playlistTittle, Resource.ErrorPlaylistNotCreate);
         }
 
+        [Description("Deletes a playlist in Spotify lateral playlist")]
         [Test]
         public void DeletePlaylistSpotifyTest()
         {
@@ -54,9 +56,10 @@ namespace Tests.PageTests
             Thread.Sleep(3000);
             // Compares titles once the playlist has been deleted.
             string postPlaylistTitle = initialPage.GetTitlePlaylistSpotify(playlistPosition);
-            Assert.AreNotEqual(previousPlaylistTitle, postPlaylistTitle);
+            Assert.AreNotEqual(previousPlaylistTitle, postPlaylistTitle, Resource.ErrorPlaylistNotDelete);
         }
 
+        [Description("Reproduces a playlist in Spotify lateral playlist")]
         [Test]
         public void ReproducePlaylistSpotifyTest() 
         {
@@ -68,7 +71,7 @@ namespace Tests.PageTests
             // Waits 2 s.
             Thread.Sleep(2000);
             // Checks if the playlist is reproducing.
-            Assert.IsTrue(initialPage.IsReproducing);
+            Assert.IsTrue(initialPage.IsReproducing, Resource.ErrorPlaylistNotReproduce);
         }
 
         #region Private methods

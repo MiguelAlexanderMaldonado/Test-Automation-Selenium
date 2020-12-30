@@ -129,6 +129,18 @@
   <data name="EdgeType" xml:space="preserve">
     <value>edge</value>
   </data>
+  <data name="ErrorLogin" xml:space="preserve">
+    <value>Login action failed</value>
+  </data>
+  <data name="ErrorPlaylistNotCreate" xml:space="preserve">
+    <value>Playlist hasn't been created</value>
+  </data>
+  <data name="ErrorPlaylistNotDelete" xml:space="preserve">
+    <value>Playlist hasn't been deleted</value>
+  </data>
+  <data name="ErrorPlaylistNotReproduce" xml:space="preserve">
+    <value>Playlist hasn't been reproduced</value>
+  </data>
   <data name="ExpectedFacebookTitle" xml:space="preserve">
     <value>Facebook</value>
   </data>

@@ -1,5 +1,7 @@
 ﻿using CommonLibs.Implementation;
 using Microsoft.Extensions.Configuration;
+using NLog;
+using NLog.Targets;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -11,11 +13,15 @@ namespace Application.Pages
     public class BasePage
     {
         #region Variables
+
         protected IWebDriver Driver { get; set; }
         protected CommonElement CmnElement { get; set; }
         protected CommonActions CmnActions { get; set; }
         protected IConfigurationRoot Configuration { get; set; }
         private WebDriverWait Wait { get; set; }
+
+        protected static Logger logger;
+
         #endregion Variables
 
         #region Public methods
@@ -29,11 +35,24 @@ namespace Application.Pages
             string workingDirectory = Environment.CurrentDirectory;
             string currentProjectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
             this.Configuration = new ConfigurationBuilder().AddJsonFile(currentProjectDirectory + "/config/appSettings.json").Build();
+            SetLoggerConfiguration();
         }
 
         public void WaitUntilElementExists(By element)
         {
-            Wait.Until(ExpectedConditions.ElementExists(element));
+            this.Wait.Until(ExpectedConditions.ElementExists(element));
+        }
+
+        /// <summary>
+        /// Configures the logger manager.
+        /// </summary>
+        private void SetLoggerConfiguration() 
+        {
+            FileTarget target = (FileTarget)LogManager.Configuration.FindTargetByName("ownFile-web");
+            DateTime dateTime = DateTime.Now;
+            target.FileName = $"{this.Configuration["nlogDirectory"]}/nlog-{dateTime:yyyyMMdd}.log";
+            LogManager.ReconfigExistingLoggers();
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         #endregion Public methods
