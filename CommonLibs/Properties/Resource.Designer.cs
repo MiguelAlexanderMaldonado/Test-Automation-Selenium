@@ -196,6 +196,15 @@ namespace CommonLibs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performing change profile name test.
+        /// </summary>
+        public static string PerformingChangeProfileNameTest {
+            get {
+                return ResourceManager.GetString("PerformingChangeProfileNameTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Performing create playlist test.
         /// </summary>
         public static string PerformingCreatePlaylistTest {
@@ -237,6 +246,15 @@ namespace CommonLibs.Properties {
         public static string PerformingReproducePlaylistTest {
             get {
                 return ResourceManager.GetString("PerformingReproducePlaylistTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify change profile name test.
+        /// </summary>
+        public static string VerifyChangeProfileNameTest {
+            get {
+                return ResourceManager.GetString("VerifyChangeProfileNameTest", resourceCulture);
             }
         }
         

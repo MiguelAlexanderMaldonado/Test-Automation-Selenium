@@ -162,6 +162,9 @@
   <data name="OneOrMoreStepFiled" xml:space="preserve">
     <value>One or more step failed</value>
   </data>
+  <data name="PerformingChangeProfileNameTest" xml:space="preserve">
+    <value>Performing change profile name test</value>
+  </data>
   <data name="PerformingCreatePlaylistTest" xml:space="preserve">
     <value>Performing create playlist test</value>
   </data>
@@ -176,6 +179,9 @@
   </data>
   <data name="PerformingReproducePlaylistTest" xml:space="preserve">
     <value>Performing reproduce playlist test</value>
+  </data>
+  <data name="VerifyChangeProfileNameTest" xml:space="preserve">
+    <value>Verify change profile name test</value>
   </data>
   <data name="VerifyCreatePlaylistTest" xml:space="preserve">
     <value>Verify create playlist test</value>

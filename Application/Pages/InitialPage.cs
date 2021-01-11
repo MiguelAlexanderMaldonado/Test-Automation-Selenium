@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Application.Pages
 {
-    public class InitialPage : BasePage
+    public class InitialPage : LoginPage
     {
         #region Variables
         

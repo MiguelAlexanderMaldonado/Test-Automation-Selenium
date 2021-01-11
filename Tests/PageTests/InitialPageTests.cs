@@ -7,10 +7,9 @@ using System.Threading;
 namespace Tests.PageTests
 {
     [Category("InitialPage")]
-    public class InitialPageTest: BaseTests
+    public class InitialPageTests: BaseTests
     {
         #region Variables
-        private LoginPage loginPage;
         private InitialPage initialPage;
         private readonly int playlistPosition = 1;
         #endregion Variables
@@ -18,7 +17,6 @@ namespace Tests.PageTests
         [SetUp]
         public void SetUpContext() 
         {
-            loginPage = new LoginPage(base.driver);
             initialPage = new InitialPage(base.driver);
             base.MaximizeBrowser();
         }
@@ -28,12 +26,14 @@ namespace Tests.PageTests
         public void CreatePlaylistSpotifyTest()
         {
             base.SetTestCaseReportLog(Resource.VerifyCreatePlaylistTest, Resource.PerformingCreatePlaylistTest);
-            // Logins in Spotify web page.
-            LoginToSpotify();
+            // Loads Spotify page.
+            this.initialPage.Open();
+            // Test: Sets thes user name / email and password to test the login in Spotify page.
+            this.initialPage.LoginToSpotify(base.configuration["userNameSpotify"], base.configuration["passwordSpotify"]);
             // Test: Create a new playlist in Spotify lateral playlist.            
-            initialPage.CreatePlaylistSpotify();
+            this.initialPage.CreatePlaylistSpotify();
             // Goes to the initial page.
-            initialPage.GoToInitPageSpotify();
+            this.initialPage.GoToInitPageSpotify();
             // Waits 3s.
             Thread.Sleep(3000);
             // Compares titles once the playlist has been created.
@@ -46,8 +46,10 @@ namespace Tests.PageTests
         public void DeletePlaylistSpotifyTest()
         {
             base.SetTestCaseReportLog(Resource.VerifyDeletePlaylistTest, Resource.PerformingDeletePlaylistTest);
-            // Logins in Spotify web page.
-            LoginToSpotify();
+            // Loads Spotify page.
+            this.initialPage.Open();
+            // Test: Sets thes user name / email and password to test the login in Spotify page.
+            this.initialPage.LoginToSpotify(base.configuration["userNameSpotify"], base.configuration["passwordSpotify"]);
             // Test: Deletes a playlist in Spotify lateral playlist.
             string previousPlaylistTitle = initialPage.GetTitlePlaylistSpotify(playlistPosition);
             initialPage.DeletePlaylistSpotify(playlistPosition);
@@ -64,8 +66,10 @@ namespace Tests.PageTests
         public void ReproducePlaylistSpotifyTest() 
         {
             base.SetTestCaseReportLog(Resource.VerifyReproducePlaylistTest, Resource.PerformingReproducePlaylistTest);
-            // Logins in Spotify web page.
-            LoginToSpotify();
+            // Loads Spotify page.
+            this.initialPage.Open();
+            // Test: Sets thes user name / email and password to test the login in Spotify page.
+            this.initialPage.LoginToSpotify(base.configuration["userNameSpotify"], base.configuration["passwordSpotify"]);
             // Test: Reproduces a playlist in Spotify lateral playlist.
             initialPage.ReproducePlaylistSpotify(playlistPosition);
             // Waits 2 s.
@@ -75,15 +79,6 @@ namespace Tests.PageTests
         }
 
         #region Private methods
-
-        private void LoginToSpotify()
-        {
-            // Loads Spotify page.
-            loginPage.Open();
-            // Sets the user name / email and password to test the login in Spotify page.
-            loginPage.LoginToSpotify(base.configuration["userNameSpotify"], base.configuration["passwordSpotify"]);
-        }
-
         #endregion Private methods
     }
 }

@@ -16,6 +16,7 @@
 - Create new playlist
 - Delete playlist
 - Reproduce playlist
+- Change profile user name
 
 ## Software resources
 
