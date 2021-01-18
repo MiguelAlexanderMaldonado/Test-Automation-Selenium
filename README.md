@@ -29,6 +29,6 @@
 - [WebDriver locators](https://www.automatetheplanet.com/selenium-webdriver-locators-cheat-sheet/)
 - [Run JQuery](http://exploreselenium.com/selenium/run-jquery-in-selenium-webdriver/)
 
-### To-do
+## To-do
 
 - [TestProject](https://testproject.io/)
